@@ -17,6 +17,7 @@ int convert(char *from, char *to) {
 }
 
 char valid_convert(FileType *from, FileType *to) {
-    // TODO: Write function
-    return 0;
+    if (equals(from, to))
+        return 0;
+    return 1;
 }

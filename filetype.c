@@ -132,14 +132,14 @@ char equals(const FileType *lhs, const FileType *rhs) {
 
 char *strip_name(char *filename) {
     int i;
-    char a[sizeof(filename)];
+    static char a[sizeof(filename)];
     for (i = 0; filename[i] != '.'; i++)
         a[i] = filename[i];
     return a;
 }
 
 char *to_string(char *name, FileType *type) {
-    char a[1000];
+    static char a[1000];
     strcat(a, name);
     strcat(a, ".");
     strcat(a, type->name);
