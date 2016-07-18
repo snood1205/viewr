@@ -1,0 +1,3 @@
+#include "filetype.h"
+
+FileType
