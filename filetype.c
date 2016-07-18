@@ -3,6 +3,15 @@
 #include <string.h>
 
 typedef struct FileType {
+    ///////////////////////////////////////////////////////////////////
+    // This type-struct is for FileType.                             //
+    // attributes :                                                  //
+    // - name (char[20]) : the name of the FileType                  //
+    // - extension (char[10]) : the file extension                   //
+    // - markdown_flavor (char) : if the FileType is a markdown      //
+    // flavor.                                                       //
+    ///////////////////////////////////////////////////////////////////
+
     char    name[20];
     char    extension[10];
     char    markdown_flavor;
@@ -10,6 +19,17 @@ typedef struct FileType {
 
 FileType * file_type_new(char * name, char * extension, char markdown_flavor)
 {
+    ///////////////////////////////////////////////////////////////////
+    // This function is, for all intents and purposes, the           //
+    // constructor for FileType.                                     //
+    // params:                                                       //
+    // - name (char *) : the name to set                             //
+    // - extension (char *) : the extension to set                   //
+    // - markdown_flavor (char) : set if it is a markdown flavor     //
+    // returns:                                                      //
+    // - (FileType *) : pointer to newly constructed FileType        //
+    ///////////////////////////////////////////////////////////////////
+
     FileType * a;
     if ((a = malloc(sizeof * a)) != NULL) {
         strcpy(a->name, name);
@@ -21,6 +41,15 @@ FileType * file_type_new(char * name, char * extension, char markdown_flavor)
 
 FileType * detect_type(char * filename)
 {
+    ///////////////////////////////////////////////////////////////////
+    // This function returns a pointer to the FileType parsed from   //
+    // the filename passed to the function.                          //
+    // params :                                                      //
+    // - filename (char *) : the file name to parse                  //
+    // returns :                                                     //
+    // - (FileType *) : the file type parsed                         //
+    ///////////////////////////////////////////////////////////////////
+
     char * suffix;
     suffix = get_suffix(filename);
     if (strncmp(suffix, "md", 50)
@@ -56,6 +85,15 @@ FileType * detect_type(char * filename)
 
 char * get_suffix(char * filename)
 {
+    ///////////////////////////////////////////////////////////////////
+    // This function takes a file name and returns the file          //
+    // extensions for the file.                                      //
+    // params :                                                      //
+    // - filename (char *) : the filename to parse                   //
+    // returns :                                                     //
+    // - (char *) : the file extension                               //
+    ///////////////////////////////////////////////////////////////////
+
     int i, j;
     char in_suffix;
     static char a[10];
@@ -76,6 +114,20 @@ char * get_suffix(char * filename)
 
 char equals(const FileType * lhs, const FileType * rhs)
 {
+    ///////////////////////////////////////////////////////////////////
+    // This function equals checks if two FileTypes are shallowly    //
+    // equal to each other. This means that their names are the same //
+    // and that if one is a markdown flavor, so is the other. This   //
+    // does not compare file extensions, and intentionally so. The   //
+    // function that compares file extensions as well is             //
+    // deep_equals(const FileType *, const FileType *).              //
+    // params :                                                      //
+    // - lhs (const FileType *) : the left hand side to compare      //
+    // - rhs (const FileType *) : the right hand side to compare     //
+    // returns :                                                     //
+    // - (char) : 0 if they are not equal, 1 if they are equal       //
+    ///////////////////////////////////////////////////////////////////
+
     if (lhs->markdown_flavor != rhs->markdown_flavor
         || sizeof(lhs->name) != sizeof(rhs->name))
         return 0;
