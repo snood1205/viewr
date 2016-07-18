@@ -1,6 +1,7 @@
 #include "filetype.h"
 
-typedef struct FileType {
+typedef struct FileType
+{
     ///////////////////////////////////////////////////////////////////
     // This type-struct is for FileType.                             //
     // attributes :                                                  //
@@ -10,13 +11,12 @@ typedef struct FileType {
     // flavor.                                                       //
     ///////////////////////////////////////////////////////////////////
 
-    char    name[20];
-    char    extension[10];
-    char    markdown_flavor;
+    char name[20];
+    char extension[10];
+    char markdown_flavor;
 } FileType;
 
-FileType * file_type_new(char * name, char * extension, char markdown_flavor)
-{
+FileType *file_type_new(char *name, char *extension, char markdown_flavor) {
     ///////////////////////////////////////////////////////////////////
     // This function is, for all intents and purposes, the           //
     // constructor for FileType.                                     //
@@ -28,8 +28,8 @@ FileType * file_type_new(char * name, char * extension, char markdown_flavor)
     // - (FileType *) : pointer to newly constructed FileType        //
     ///////////////////////////////////////////////////////////////////
 
-    FileType * a;
-    if ((a = malloc(sizeof * a)) != NULL) {
+    FileType *a;
+    if ((a = malloc(sizeof *a)) != NULL) {
         strcpy(a->name, name);
         strcpy(a->extension, extension);
         a->markdown_flavor = markdown_flavor;
@@ -37,8 +37,7 @@ FileType * file_type_new(char * name, char * extension, char markdown_flavor)
     return a;
 }
 
-FileType * detect_type(char * filename)
-{
+FileType *detect_type(char *filename) {
     ///////////////////////////////////////////////////////////////////
     // This function returns a pointer to the FileType parsed from   //
     // the filename passed to the function.                          //
@@ -48,7 +47,7 @@ FileType * detect_type(char * filename)
     // - (FileType *) : the file type parsed                         //
     ///////////////////////////////////////////////////////////////////
 
-    char * suffix;
+    char *suffix;
     suffix = get_suffix(filename);
     if (strncmp(suffix, "md", 50)
         || strncmp(suffix, "mdown", 50)
@@ -81,8 +80,7 @@ FileType * detect_type(char * filename)
     return file_type_new("NULL", suffix, 0);
 }
 
-char * get_suffix(char * filename)
-{
+char *get_suffix(char *filename) {
     ///////////////////////////////////////////////////////////////////
     // This function takes a file name and returns the file          //
     // extensions for the file.                                      //
@@ -97,7 +95,7 @@ char * get_suffix(char * filename)
     static char a[10];
     in_suffix = 0;
     j = 0;
-    for (i = 0; i < sizeof(filename)/sizeof(char); i++) {
+    for (i = 0; i < sizeof(filename) / sizeof(char); i++) {
         if (in_suffix) {
             a[j] = filename[i];
             j++;
@@ -110,8 +108,7 @@ char * get_suffix(char * filename)
     return a;
 }
 
-char equals(const FileType * lhs, const FileType * rhs)
-{
+char equals(const FileType *lhs, const FileType *rhs) {
     ///////////////////////////////////////////////////////////////////
     // This function equals checks if two FileTypes are shallowly    //
     // equal to each other. This means that their names are the same //
@@ -128,13 +125,12 @@ char equals(const FileType * lhs, const FileType * rhs)
 
     if (lhs->markdown_flavor != rhs->markdown_flavor)
         return 0;
-    if(strncmp(lhs->name, rhs->name, 50))
+    if (strncmp(lhs->name, rhs->name, 50))
         return 1;
     return 0;
 }
 
-char * strip_name(char * filename)
-{
+char *strip_name(char *filename) {
     int i;
     char a[sizeof(filename)];
     for (i = 0; filename[i] != '.'; i++)
@@ -142,8 +138,7 @@ char * strip_name(char * filename)
     return a;
 }
 
-char * to_string(char * name, FileType * type)
-{
+char *to_string(char *name, FileType *type) {
     char a[1000];
     strcat(a, name);
     strcat(a, ".");

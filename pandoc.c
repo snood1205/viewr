@@ -1,8 +1,7 @@
 #include "pandoc.h"
 
-int convert(char * from, char * to)
-{
-    FileType * a, * b;
+int convert(char *from, char *to) {
+    FileType *a, *b;
     char call[200];
     strcpy(call, "pandoc ");
     a = detect_type(from);
@@ -17,8 +16,7 @@ int convert(char * from, char * to)
     return 1;
 }
 
-char valid_convert(FileType * from, FileType * to)
-{
+char valid_convert(FileType *from, FileType *to) {
     // TODO: Write function
     return 0;
 }
