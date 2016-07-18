@@ -1,7 +1,6 @@
 #include "filetype.h"
 
-typedef struct FileType
-{
+typedef struct FileType {
     ///////////////////////////////////////////////////////////////////
     // This type-struct is for FileType.                             //
     // attributes :                                                  //
@@ -10,7 +9,6 @@ typedef struct FileType
     // - markdown_flavor (char) : if the FileType is a markdown      //
     // flavor.                                                       //
     ///////////////////////////////////////////////////////////////////
-
     char name[20];
     char extension[10];
     char markdown_flavor;
@@ -129,6 +127,7 @@ char equals(const FileType *lhs, const FileType *rhs) {
         return 1;
     return 0;
 }
+
 
 char *strip_name(char *filename) {
     int i;
