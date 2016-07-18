@@ -1,4 +1,6 @@
 #include "filetype.h"
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct FileType {
     char    name[20];
@@ -9,9 +11,9 @@ typedef struct FileType {
 FileType * file_type_new(char * name, char * extension, char markdown_flavor)
 {
     FileType * a;
-    if (a = malloc(sizeof * a) != NULL) {
-        a->name = name;
-        a->extension = extension;
+    if ((a = malloc(sizeof * a)) != NULL) {
+        strcpy(a->name, name);
+        strcpy(a->extension, extension);
         a->markdown_flavor = markdown_flavor;
     }
     return a;
@@ -21,48 +23,42 @@ FileType * detect_type(char * filename)
 {
     char * suffix;
     suffix = get_suffix(filename);
-    switch (suffix) {
-        case "md":
-        case "mdown":
-        case "markdown":
-            return file_type_new("Markdown", suffix, 1);
-        case "textile":
-            return file_type_new("Textile", suffix, 0);
-        case "rst":
-            return file_type_new("reStructuredText", suffix, 0);
-        case "html":
-        case "php":
-            return file_type_new("HTML", suffix, 0);
-        case "tex":
-            return file_type_new("LaTeX", suffix, 0);
-        case "mw":
-            return file_type_new("MediaWiki", suffix, 0);
-        case "tw":
-            return file_type_new("TWiki", suffix, 0);
-        case "hd":
-            return file_type_new("Haddock", suffix, 0);
-        case "opml":
-            return file_type_new("OPML", suffix, 0);
-        case "dbk":
-            return file_type_new("DockBook", suffix, 0);
-        case "odt":
-        case "fodt":
-            return file_type_new("OpenDocument", suffix, 0);
-        case "epub":
-            return file_type_new("Epub", suffix, 0);
-        case "docx":
-        case "doc":
-            return file_type_new("Word Doc", 0);
-        default:
-            return file_type_new("NULL", suffix, 0);
-    }
+    if (strncmp(suffix, "md", 50)
+        || strncmp(suffix, "mdown", 50)
+        || strncmp(suffix, "markdown", 50))
+        return file_type_new("Markdown", suffix, 1);
+    if (strncmp(suffix, "textile", 50))
+        return file_type_new("Textile", suffix, 0);
+    if (strncmp(suffix, "rst", 50))
+        return file_type_new("reStructuredText", suffix, 0);
+    if (strncmp(suffix, "html", 50) || strncmp(suffix, "php", 50))
+        return file_type_new("HTML", suffix, 0);
+    if (strncmp(suffix, "tex", 50))
+        return file_type_new("LaTeX", suffix, 0);
+    if (strncmp(suffix, "mw", 50))
+        return file_type_new("MediaWiki", suffix, 0);
+    if (strncmp(suffix, "tw", 50))
+        return file_type_new("TWiki", suffix, 0);
+    if (strncmp(suffix, "hd", 50))
+        return file_type_new("Haddock", suffix, 0);
+    if (strncmp(suffix, "opml", 50))
+        return file_type_new("OPML", suffix, 0);
+    if (strncmp(suffix, "dbk", 50))
+        return file_type_new("DockBook", suffix, 0);
+    if (strncmp(suffix, "odt", 50) || strncmp(suffix, "fodt", 50))
+        return file_type_new("OpenDocument", suffix, 0);
+    if (strncmp(suffix, "epub", 50))
+        return file_type_new("Epub", suffix, 0);
+    if (strncmp(suffix, "docx", 50) || strncmp(suffix, "doc", 50))
+        return file_type_new("Word Doc", suffix, 0);
+    return file_type_new("NULL", suffix, 0);
 }
 
 char * get_suffix(char * filename)
 {
     int i, j;
     char in_suffix;
-    char a[10];
+    static char a[10];
     in_suffix = 0;
     j = 0;
     for (i = 0; i < sizeof(filename)/sizeof(char); i++) {
@@ -75,5 +71,5 @@ char * get_suffix(char * filename)
         }
     }
     a[i] = '\0';
-    return * a;
+    return a;
 }
