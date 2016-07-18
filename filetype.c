@@ -73,3 +73,13 @@ char * get_suffix(char * filename)
     a[i] = '\0';
     return a;
 }
+
+char equals(const FileType * lhs, const FileType * rhs)
+{
+    if (lhs->markdown_flavor != rhs->markdown_flavor
+        || sizeof(lhs->name) != sizeof(rhs->name))
+        return 0;
+    if(strncmp(lhs->name, rhs->name, 50))
+        return 1;
+    return 0;
+}
