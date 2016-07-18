@@ -1,22 +1,21 @@
 #include "filetype.h"
 
 typedef struct FileType {
-    char    name[5];
-    char     markdown_flavor;
+    char    name[20];
+    char    extension[10];
+    char    markdown_flavor;
 } FileType;
 
-FileType * file_type_new(char * name, char markdown_flavor)
+FileType * file_type_new(char * name, char * extension, char markdown_flavor)
 {
     FileType * a;
     if (a = malloc(sizeof * a) != NULL) {
         a->name = name;
+        a->extension = extension;
         a->markdown_flavor = markdown_flavor;
     }
     return a;
 }
-/*
-. It can read Markdown, Textile, reStructuredText, HTML, LaTeX, MediaWiki markup, TWiki markup, Haddock markup, OPML, Emacs Org mode, DocBook, txt2tags, EPUB, ODT and Word docx; and it can write plain text, Markdown, CommonMark, PHP Markdown Extra, GitHub-Flavored Markdown, MultiMarkdown, reStructuredText, XHTML, HTML5, LaTeX (including beamer slide shows), ConTeXt, RTF, OPML, DocBook, OpenDocument, ODT, Word docx, GNU Texinfo, MediaWiki markup, DokuWiki markup, ZimWiki markup, Haddock markup, EPUB (v2 or v3), FictionBook2, Textile, groff man pages, Emacs Org mode, AsciiDoc, InDesign ICML, TEI Simple, and Slidy, Slideous, DZSlides, reveal.js or S5 HTML slide shows. It can also produce PDF output on systems where LaTeX, ConTeXt, or wkhtmltopdf is installed.
-*/
 
 FileType * detect_type(char * filename)
 {
@@ -26,23 +25,36 @@ FileType * detect_type(char * filename)
         case "md":
         case "mdown":
         case "markdown":
-            return file_type_new("Markdown", 1);
+            return file_type_new("Markdown", suffix, 1);
         case "textile":
-            return file_type_new("Textile", 0);
+            return file_type_new("Textile", suffix, 0);
         case "rst":
-            return file_type_new("reStructuredText", 0);
+            return file_type_new("reStructuredText", suffix, 0);
         case "html":
         case "php":
-            return file_type_new("HTML", 0);
+            return file_type_new("HTML", suffix, 0);
         case "tex":
-            return file_type_new("LaTeX", 0);
+            return file_type_new("LaTeX", suffix, 0);
         case "mw":
-            return file_type_new("MediaWiki", 0);
+            return file_type_new("MediaWiki", suffix, 0);
         case "tw":
-            return file_type_new("TWiki", 0);
+            return file_type_new("TWiki", suffix, 0);
         case "hd":
-            return file_type_new("Haddock", 0);
+            return file_type_new("Haddock", suffix, 0);
         case "opml":
+            return file_type_new("OPML", suffix, 0);
+        case "dbk":
+            return file_type_new("DockBook", suffix, 0);
+        case "odt":
+        case "fodt":
+            return file_type_new("OpenDocument", suffix, 0);
+        case "epub":
+            return file_type_new("Epub", suffix, 0);
+        case "docx":
+        case "doc":
+            return file_type_new("Word Doc", 0);
+        default:
+            return file_type_new("NULL", suffix, 0);
     }
 }
 
