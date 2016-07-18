@@ -2,10 +2,23 @@
 
 int convert(char * from, char * to)
 {
-    return 0;
+    FileType * a, * b;
+    char call[200];
+    strcpy(call, "pandoc ");
+    a = detect_type(from);
+    b = detect_type(to);
+    if (valid_convert(a, b)) {
+        strcat(call, "-s ");
+        strcat(call, strip_name(from));
+        strcat(call, " -o ");
+        strcat(call, to_string(to, b));
+        return system(call);
+    }
+    return 1;
 }
 
 char valid_convert(FileType * from, FileType * to)
 {
+    // TODO: Write function
     return 0;
 }

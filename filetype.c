@@ -1,6 +1,4 @@
 #include "filetype.h"
-#include <stdlib.h>
-#include <string.h>
 
 typedef struct FileType {
     ///////////////////////////////////////////////////////////////////
@@ -128,10 +126,27 @@ char equals(const FileType * lhs, const FileType * rhs)
     // - (char) : 0 if they are not equal, 1 if they are equal       //
     ///////////////////////////////////////////////////////////////////
 
-    if (lhs->markdown_flavor != rhs->markdown_flavor
-        || sizeof(lhs->name) != sizeof(rhs->name))
+    if (lhs->markdown_flavor != rhs->markdown_flavor)
         return 0;
     if(strncmp(lhs->name, rhs->name, 50))
         return 1;
     return 0;
+}
+
+char * strip_name(char * filename)
+{
+    int i;
+    char a[sizeof(filename)];
+    for (i = 0; filename[i] != '.'; i++)
+        a[i] = filename[i];
+    return a;
+}
+
+char * to_string(char * name, FileType * type)
+{
+    char a[1000];
+    strcat(a, name);
+    strcat(a, ".");
+    strcat(a, type->name);
+    return a;
 }
